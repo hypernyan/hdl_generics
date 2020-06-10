@@ -27,3 +27,5 @@ Convert a vector with multiple bits set to a vector with only one bit set (MSB o
 Single- and dual port RAM
 ## sum
 Recursive summation module
+## mult
+Shift-add multiplier (in development)
