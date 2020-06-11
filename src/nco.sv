@@ -1,3 +1,6 @@
+`ifndef MODULE_NCO
+`define MODULE_NCO
+
 module nco #(
   parameter integer LUT_ADDR_BITS   = 8,             // Time precision
   parameter integer LUT_DATA_BITS   = 8,             // Amplitude precision ( half wave )
@@ -10,10 +13,10 @@ module nco #(
   input rst,
 
   input [PHASE_ACC_BITS-2:0] phase_inc,
-  output logic [PHASE_ACC_BITS-1:0] phase_acc // phase accumulator stores 2 bits to determine sine quarter period number
+  output logic [PHASE_ACC_BITS-1:0] phase_acc, // phase accumulator stores 2 bits to determine sine quarter period number
 
   output logic signed [NCO_OUTPUTS-1:0][LUT_DATA_BITS:0] I,
-  output logic signed [NCO_OUTPUTS-1:0][LUT_DATA_BITS:0] Q,
+  output logic signed [NCO_OUTPUTS-1:0][LUT_DATA_BITS:0] Q
 );
 
 logic [1:0] quad_addr, quad_data;
@@ -30,8 +33,8 @@ assign nco_lut_if.rst   = rst;
 always_ff @ (posedge clk) begin
   if (rst) begin
     phase_acc <= 0;
-    nco_lut_if.addr_a <= 0:
-    nco_lut_if.addr_b <= 0:
+    nco_lut_if.addr_a <= 0;
+    nco_lut_if.addr_b <= 0;
     quad_addr[1:0] <= 0;  
     quad_data[1:0] <= 0;
   end  
@@ -123,3 +126,5 @@ always @ (posedge ifc.clk_a) begin
 end
 
 endmodule
+`endif // MODULE_NCO
+

@@ -1,3 +1,5 @@
+`ifndef MODULE_INT_DIVIDER
+`define MODULE_INT_DIVIDER
 module int_divider #(
   parameter WIDTH = 12
 ) 
@@ -65,3 +67,5 @@ always @ (posedge clk) begin
 end
 
 endmodule
+
+`endif // MODULE_INT_DIVIDER

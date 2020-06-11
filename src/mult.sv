@@ -1,3 +1,6 @@
+`ifndef MODULE_MULT
+`define MODULE_MULT
+
 module mult #(
   parameter int W = 8
 )(
@@ -50,3 +53,5 @@ always @ (posedge clk) begin
 end
 
 endmodule
+
+`endif // MODULE_MULT

@@ -1,3 +1,6 @@
+`ifndef MODULE_ENCODER
+`define MODULE_ENCODER
+
 module encoder #(
   parameter ENCODER_DEBOUNCE_TICKS = 10000,
   parameter BUTTON_DEBOUNCE_TICKS  = 10000
@@ -77,3 +80,5 @@ assign ccw = (a_pos && b_db);
 assign prs = btn_neg;
 
 endmodule
+
+`endif // MODULE_ENCODER

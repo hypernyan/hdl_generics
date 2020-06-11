@@ -1,3 +1,6 @@
+`ifndef MODULE_SUM
+`define MODULE_SUM
+
 module sum #(
   parameter int W = 8,
   parameter int N = 4 // 2**N averages
@@ -21,3 +24,5 @@ generate
 endgenerate
 
 endmodule
+
+`endif // MODULE_SUM

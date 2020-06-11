@@ -1,7 +1,8 @@
 // Credits to:
 // Joey for bcd2bin https://embeddedthoughts.com/2016/06/01/bcd-to-binary-conversion-on-an-fpga/
 // Scott Larson for bin2bcd https://www.digikey.com/eewiki/pages/viewpage.action?pageId=60030986
-
+`ifndef MODULE_BCD2BIN
+`define MODULE_BCD2BIN
 module bcd2bin #(
   parameter integer DEC_W = 8,
   parameter integer BIN_W = $clog2(10**DEC_W)
@@ -53,7 +54,10 @@ generate
 endgenerate
 
 endmodule : bcd2bin
+`endif // MODULE_BCD2BIN
 
+`ifndef MODULE_BIN2BCD
+`define MODULE_BIN2BCD
 module bin2bcd #(
   parameter integer DEC_W = 8,
   parameter integer BIN_W = $clog2(10**DEC_W)
@@ -137,3 +141,4 @@ always @ (posedge clk) begin
 end
 
 endmodule : bcd_dig
+`endif // MODULE_BIN2BCD

@@ -1,4 +1,5 @@
-`define SIMULATION
+`ifndef MODULE_I2C
+`define MODULE_I2C
 module i2c #(
   parameter integer PRESCALER = 10, 
   parameter integer BYTES_W  = 3,  // expected byte count for write operation
@@ -157,3 +158,5 @@ always @ (posedge clk) begin
 end
 
 endmodule
+
+`endif // MODULE_I2C

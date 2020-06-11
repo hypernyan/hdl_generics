@@ -1,3 +1,6 @@
+`ifndef MODULE_FIFO
+`define MODULE_FIFO
+
 interface fifo_dc_if
 #(
   parameter ADDR_WIDTH = 16,
@@ -8,17 +11,17 @@ interface fifo_dc_if
   logic                  clk_w;
   logic                  clk_r;
   
-  logic                  v_w;
-  logic [DATA_WIDTH-1:0] d_w;
+  logic                  write;
+  logic [DATA_WIDTH-1:0] data_in;
   
-  logic                  v_r;
-  logic [DATA_WIDTH-1:0] q_r;
+  logic                  read;
+  logic [DATA_WIDTH-1:0] data_out;
   
-  logic                  f;
-  logic                  e;
+  logic                  full;
+  logic                  empty;
   
-  modport fifo (input rst, clk_w, clk_r, v_w, d_w, v_r, output q_r, f, e);
-  modport sys  (input q_r, f, e, output rst, clk_w, clk_r, v_w, d_w, v_r);
+  modport fifo (input rst, clk_w, clk_r, write, data_in, read, output data_out, full, empty);
+  modport sys  (input data_out, full, empty, output rst, clk_w, clk_r, write, data_in, read);
 
 endinterface
 
@@ -50,7 +53,7 @@ always @ (posedge fifo.clk_w or posedge fifo.rst) begin
   if (fifo.rst) begin
     wr_addr <= 0;
     wr_addr_gray <= 0;
-  end else if (fifo.v_w) begin
+  end else if (fifo.write) begin
     wr_addr <= wr_addr + 1'b1;
     wr_addr_gray <= gray_conv(wr_addr + 1'b1);
   end
@@ -64,17 +67,17 @@ end
 
 always @ (posedge fifo.clk_w or posedge fifo.rst)
   if (fifo.rst)
-    fifo.f <= 0;
-  else if (fifo.v_w)
-    fifo.f <= gray_conv (wr_addr + 2) == rd_addr_gray_wr_r;
+    fifo.full <= 0;
+  else if (fifo.write)
+    fifo.full <= gray_conv (wr_addr + 2) == rd_addr_gray_wr_r;
   else
-    fifo.f <= fifo.f & (gray_conv (wr_addr + 1'b1) == rd_addr_gray_wr_r);
+    fifo.full <= fifo.full & (gray_conv (wr_addr + 1'b1) == rd_addr_gray_wr_r);
 
 always @ (posedge fifo.clk_w or posedge fifo.rst) begin
   if (fifo.rst) begin
     rd_addr      <= 0;
     rd_addr_gray <= 0;
-  end else if (fifo.v_r) begin
+  end else if (fifo.read) begin
     rd_addr      <= rd_addr + 1'b1;
     rd_addr_gray <= gray_conv(rd_addr + 1'b1);
   end
@@ -88,17 +91,17 @@ end
 
 always @ (posedge fifo.clk_w or posedge fifo.rst)
   if (fifo.rst)
-    fifo.e <= 1'b1;
-  else if (fifo.v_r)
-    fifo.e <= gray_conv (rd_addr + 1) == wr_addr_gray_rd_r;
+    fifo.empty <= 1'b1;
+  else if (fifo.read)
+    fifo.empty <= gray_conv (rd_addr + 1) == wr_addr_gray_rd_r;
   else
-    fifo.e <= fifo.e & (gray_conv (rd_addr) == wr_addr_gray_rd_r);
+    fifo.empty <= fifo.empty & (gray_conv (rd_addr) == wr_addr_gray_rd_r);
 
 // generate dual clocked memory
 reg [DATA_WIDTH-1:0] mem[(1<<ADDR_WIDTH)-1:0];
 
-always @(posedge fifo.clk_r) if (fifo.v_r) fifo.q_r <= mem[rd_addr];
-always @(posedge fifo.clk_w) if (fifo.v_w) mem[wr_addr] <= fifo.d_w;
+always @(posedge fifo.clk_r) if (fifo.read) fifo.data_out <= mem[rd_addr];
+always @(posedge fifo.clk_w) if (fifo.write) mem[wr_addr] <= fifo.data_in;
 
 endmodule
 
@@ -224,3 +227,5 @@ always @ (posedge clk) if (read) data_out <= mem[rd_addr];
 always @ (posedge clk) if (write) mem[wr_addr] <= data_in;
 
 endmodule
+
+`endif // MODULE_FIFO

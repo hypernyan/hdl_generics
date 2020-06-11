@@ -1,3 +1,6 @@
+`ifndef MODULE_ONEHOT
+`define MODULE_ONEHOT
+
 module onehot #(
 	parameter int W = 4,
 	parameter bit MSB = 1
@@ -19,8 +22,11 @@ generate
     always @* if (i[W-1]) o[W-1] = 1'b1; else o[W-1] = 1'b0;
   end
   else begin : gen_msb
+	for (idx = 1; idx < W; idx = idx + 1) begin : gen always @* if (i[idx] == 1'b1 && i[idx-1:0] == 'b0) o[idx] = 1'b1; else o[idx] = 1'b0; end
     always @* if (i[0]) o[0] = 1'b1; else o[0] = 1'b0;
-	  for (idx = 1; idx < W; idx = idx + 1) begin : gen always @* if (i[idx] == 1'b1 && i[idx-1:0] == 'b0) o[idx] = 1'b1; else o[idx] = 1'b0; end
+  end
 endgenerate
 
 endmodule
+
+`endif // MODULE_ONEHOT

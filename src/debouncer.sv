@@ -1,3 +1,6 @@
+`ifndef MODULE_DEBOUNCER
+`define MODULE_DEBOUNCER
+
 module debouncer #(
   parameter TICKS = 10000
 )
@@ -24,3 +27,5 @@ always @ (posedge clk) if (ctr == TICKS) o <= i;
 always @ (posedge clk) ctr <= (i_pos || i_neg) ? 0 : (ctr == TICKS+1) ? TICKS+1 : ctr + 1;
 
 endmodule
+
+`endif // MODULE_DEBOUNCER

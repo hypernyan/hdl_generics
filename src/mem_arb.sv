@@ -1,4 +1,5 @@
-    
+`ifndef MODULE_MEM_ARB
+`define MODULE_MEM_ARB
 module mem_arb # (
   parameter integer        AW = 16,
   parameter integer        DW = 16,
@@ -162,3 +163,4 @@ endgenerate
 always @ ( posedge ram_clk ) v_o <= v_o_pipe; 
 
 endmodule
+`endif // MODULE_MEM_ARB
