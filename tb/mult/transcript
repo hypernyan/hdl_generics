@@ -1,0 +1,259 @@
+# //  ModelSim SE-64 10.6d Feb 24 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# do compile.tcl
+# 
+# 		design_library {
+# 
+# 		}
+# 		test_library {
+# 			../src/mult.sv
+# 			tb.sv
+# 		}
+# 
+# wave.do
+# test_library.tb
+# 
+# 	/*
+# 
+# 
+# 	/*
+# 
+# .main_pane.wave.interior.cs.body.pw.wf
+# .main_pane.wave
+# 1
+# Courier 10 roman normal
+# 1591756391
+# 0
+# ** Error: could not read "../src/mult.sv": no such file or directory
+# Error in macro ./compile.tcl line 70
+# could not read "../src/mult.sv": no such file or directory
+#     while executing
+# "file mtime $file"
+#     ("foreach" body line 2)
+#     invoked from within
+# "foreach file $file_list {
+#     if { $last_compile_time < [file mtime $file] } {
+#       if [regexp {.vhdl?$} $file] {
+#         vcom -93 $file
+#       } else..."
+#     ("foreach" body line 4)
+#     invoked from within
+# "foreach {library file_list} $library_file_list {
+#   vlib $library
+#   vmap work $library
+#   foreach file $file_list {
+#     if { $last_compile_time < [file ..."
+r
+# could not read "../mult.sv": no such file or directory
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:34:15 on Jun 10,2020
+# vlog -reportprogress 300 ../../src/mult.sv 
+# -- Compiling module mult
+# ** Error: ../../src/mult.sv(12): (vlog-2730) Undefined variable: 'rdy_reg'.
+# ** Error: ../../src/mult.sv(20): (vlog-2730) Undefined variable: 'rst'.
+# ** Error: ../../src/mult.sv(25): (vlog-2730) Undefined variable: 'ctr'.
+# ** Error: ../../src/mult.sv(29): (vlog-2730) Undefined variable: 'ctr'.
+# ** Error: ../../src/mult.sv(38): (vlog-2730) Undefined variable: 'ctr'.
+# End time: 05:34:15 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 5, Warnings: 0
+# C:/modeltech64_10.6d/win64/vlog failed.
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:35:18 on Jun 10,2020
+# vlog -reportprogress 300 ../../src/mult.sv 
+# -- Compiling module mult
+# ** Error: ../../src/mult.sv(21): (vlog-2730) Undefined variable: 'rst'.
+# End time: 05:35:18 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# C:/modeltech64_10.6d/win64/vlog failed.
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:35:32 on Jun 10,2020
+# vlog -reportprogress 300 ../../src/mult.sv 
+# -- Compiling module mult
+# 
+# Top level modules:
+# 	mult
+# End time: 05:35:32 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:35:32 on Jun 10,2020
+# vlog -reportprogress 300 tb.sv 
+# -- Compiling module tb
+# ** Error: tb.sv(12): (vlog-2730) Undefined variable: 'W'.
+# ** Error: (vlog-13069) tb.sv(15): near "initial": syntax error, unexpected initial, expecting ';' or ','.
+# End time: 05:35:32 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# C:/modeltech64_10.6d/win64/vlog failed.
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:35:53 on Jun 10,2020
+# vlog -reportprogress 300 ../../src/mult.sv 
+# -- Compiling module mult
+# 
+# Top level modules:
+# 	mult
+# End time: 05:35:54 on Jun 10,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:35:54 on Jun 10,2020
+# vlog -reportprogress 300 tb.sv 
+# -- Compiling module tb
+# ** Error: (vlog-13069) tb.sv(15): near "initial": syntax error, unexpected initial, expecting ';' or ','.
+# End time: 05:35:54 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# C:/modeltech64_10.6d/win64/vlog failed.
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:36:03 on Jun 10,2020
+# vlog -reportprogress 300 ../../src/mult.sv 
+# -- Compiling module mult
+# 
+# Top level modules:
+# 	mult
+# End time: 05:36:03 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:36:03 on Jun 10,2020
+# vlog -reportprogress 300 tb.sv 
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 05:36:03 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -novopt test_library.tb 
+# Start time: 05:36:03 on Jun 10,2020
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing C:/Users/an/Desktop/hdl_generics/tb/mult/test_library.tb
+# Loading sv_std.std
+# Loading test_library.tb
+# Refreshing C:/Users/an/Desktop/hdl_generics/tb/mult/test_library.mult
+# Loading test_library.mult
+# {0 ns} {210 ns}
+run -all
+r
+# End time: 05:36:44 on Jun 10,2020, Elapsed time: 0:00:41
+# Errors: 0, Warnings: 1
+# vsim -novopt test_library.tb 
+# Start time: 05:36:44 on Jun 10,2020
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading sv_std.std
+# Loading test_library.tb
+# Loading test_library.mult
+# {0 ns} {210 ns}
+run -all
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:39:04 on Jun 10,2020
+# vlog -reportprogress 300 ../../src/mult.sv 
+# -- Compiling module mult
+# ** Error (suppressible): (vlog-12003) ../../src/mult.sv(28): Variable 'rdy' written by continuous and procedural assignments. See ../../src/mult.sv(20). 
+# End time: 05:39:04 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# C:/modeltech64_10.6d/win64/vlog failed.
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:40:03 on Jun 10,2020
+# vlog -reportprogress 300 ../../src/mult.sv 
+# -- Compiling module mult
+# 
+# Top level modules:
+# 	mult
+# End time: 05:40:03 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:40:03 on Jun 10,2020
+# vlog -reportprogress 300 tb.sv 
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 05:40:03 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 05:40:05 on Jun 10,2020, Elapsed time: 0:03:21
+# Errors: 1, Warnings: 1
+# vsim -novopt test_library.tb 
+# Start time: 05:40:05 on Jun 10,2020
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing C:/Users/an/Desktop/hdl_generics/tb/mult/test_library.tb
+# Loading sv_std.std
+# Loading test_library.tb
+# Refreshing C:/Users/an/Desktop/hdl_generics/tb/mult/test_library.mult
+# Loading test_library.mult
+# {0 ns} {210 ns}
+run -all
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:40:29 on Jun 10,2020
+# vlog -reportprogress 300 tb.sv 
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 05:40:29 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 05:40:32 on Jun 10,2020, Elapsed time: 0:00:27
+# Errors: 0, Warnings: 1
+# vsim -novopt test_library.tb 
+# Start time: 05:40:32 on Jun 10,2020
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing C:/Users/an/Desktop/hdl_generics/tb/mult/test_library.tb
+# Loading sv_std.std
+# Loading test_library.tb
+# Loading test_library.mult
+# {0 ns} {210 ns}
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:40:49 on Jun 10,2020
+# vlog -reportprogress 300 tb.sv 
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 05:40:50 on Jun 10,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# End time: 05:40:52 on Jun 10,2020, Elapsed time: 0:00:20
+# Errors: 0, Warnings: 1
+# vsim -novopt test_library.tb 
+# Start time: 05:40:52 on Jun 10,2020
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing C:/Users/an/Desktop/hdl_generics/tb/mult/test_library.tb
+# Loading sv_std.std
+# Loading test_library.tb
+# Loading test_library.mult
+# {0 ns} {210 ns}
+r
+# Model Technology ModelSim SE-64 vlog 10.6d Compiler 2018.02 Feb 24 2018
+# Start time: 05:41:26 on Jun 10,2020
+# vlog -reportprogress 300 tb.sv 
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 05:41:26 on Jun 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# End time: 05:41:29 on Jun 10,2020, Elapsed time: 0:00:37
+# Errors: 0, Warnings: 1
+# vsim -novopt test_library.tb 
+# Start time: 05:41:29 on Jun 10,2020
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing C:/Users/an/Desktop/hdl_generics/tb/mult/test_library.tb
+# Loading sv_std.std
+# Loading test_library.tb
+# Loading test_library.mult
+# {0 ns} {210 ns}
+# End time: 22:45:03 on Jun 10,2020, Elapsed time: 17:03:34
+# Errors: 0, Warnings: 1
