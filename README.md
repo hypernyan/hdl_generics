@@ -28,4 +28,6 @@ Single- and dual port RAM
 ## sum
 Recursive summation module
 ## mult
-Shift-add multiplier (in development)
+Shift-add multiplier
+## stretch
+Stretches a pulse by specified amount. Delay is constant in respect to pulse centers
