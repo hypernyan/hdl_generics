@@ -36,9 +36,6 @@ module mem_arb # (
   ram_if_sp.sys ram
 );
 
-defparam ram.AW = AW;
-defparam ram.DW = DW;
-
 logic [N-1:0] [AW+DW:0] fifo_i;
 logic [N-1:0] [AW+DW:0] fifo_o;
 logic [N-1:0]                           fifo_e;
@@ -63,20 +60,23 @@ genvar i;
 generate 
   for (i = 0; i < N; i = i + 1) begin : gen_fifos
     if (DC) begin
-      dual_clock_fifo #( D[i], DW+AW+1 )
-      fifo_inst (
-        .wr_rst_i  (in_rst[i]),    // Each FIFO has it's own clock domain on write side
-        .wr_clk_i  (in_clk[i]),    // 
-        .wr_en_i   (v_i[i]),
-        .wr_data_i ({d_i[i][DW-1:0], a_i[i][AW-1:0], r_nw[i]}),
+      fifo_dc_no_if #(
+      .D (D[i]),
+      .W (DW+AW+1)
+      ) fifo_inst 
+      (
+        .rst_w   (in_rst[i]),    // Each FIFO has it's own clock domain on write side
+        .clk_w   (in_clk[i]),    // 
+        .write   (v_i[i]),
+        .data_in ({d_i[i][DW-1:0], a_i[i][AW-1:0], r_nw[i]}),
 
-        .rd_rst_i  (ram_rst),    // All FIFOs share main RAM's clock domain on read side
-        .rd_clk_i  (ram_clk),    // 
-        .rd_en_i   (fifo_r[i]),  // 
-        .rd_data_o (fifo_o[i]),
+        .rst_r    (ram_rst),    // All FIFOs share main RAM's clock domain on read side
+        .clk_r    (ram_clk),    // 
+        .read     (fifo_r[i]),  // 
+        .data_out (fifo_o[i]),
 
-        .full_o    (fifo_f[i]),
-        .empty_o   (fifo_e[i])
+        .full  (fifo_f[i]),
+        .empty (fifo_e[i])
       );
     end
     else begin
@@ -88,14 +88,14 @@ generate
         .rst (ram_rst),
         .clk (ram_clk),
 
-        .w_v (v_i[i]),
-        .w_d ({d_i[i][DW-1:0], a_i[i][AW-1:0], r_nw[i]}),
+        .write   (v_i[i]),
+        .data_in ({d_i[i][DW-1:0], a_i[i][AW-1:0], r_nw[i]}),
 
-        .r_v (fifo_r[i]),
-        .r_q (fifo_o[i]),
+        .read     (fifo_r[i]),
+        .data_out (fifo_o[i]),
 
-        .f (fifo_f[i]),
-        .e (fifo_e[i])
+        .full  (fifo_f[i]),
+        .empty (fifo_e[i])
       );
     end
   end
@@ -110,7 +110,7 @@ endgenerate
 //true_dpram_sclk #( AW, DW ) ram_inst ( .mem_if ( main_ram ) );
 
 // Get the FIFO by priority
-onehot_msb #( N ) onehot_msb_inst (
+onehot #( N, 1'b1 ) onehot_msb_inst (
   .i ( ~fifo_e ),
   .o ( active_fifo )
 );
@@ -139,7 +139,7 @@ end
 always @ ( posedge ram_clk ) begin
   ram.d <= fifo_o [ind_fifo_dl] [DW+AW-:DW];
   ram.a <= fifo_o [ind_fifo_dl] [AW-:AW];
-  ram.v <= ( active_fifo_dl != 0 && ~fifo_o[ind_fifo_dl][0] );
+  ram.w <= ( active_fifo_dl != 0 && ~fifo_o[ind_fifo_dl][0] );
 end
 
 generate
