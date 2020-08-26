@@ -5,8 +5,7 @@ module nco #(
   parameter integer LUT_ADDR_BITS   = 8,             // Time precision
   parameter integer LUT_DATA_BITS   = 8,             // Amplitude precision ( half wave )
   parameter integer PHASE_ACC_BITS  = 24,            // Phase accumulator size
-  parameter         LUT_FILENAME    = "nco_lut.txt",
-  parameter integer NCO_OUTPUTS     = 3
+  parameter         LUT_FILENAME    = "nco_lut.txt"
 )
 (  
   input clk,
@@ -15,8 +14,8 @@ module nco #(
   input [PHASE_ACC_BITS-2:0] phase_inc,
   output logic [PHASE_ACC_BITS-1:0] phase_acc, // phase accumulator stores 2 bits to determine sine quarter period number
 
-  output logic signed [NCO_OUTPUTS-1:0][LUT_DATA_BITS:0] I,
-  output logic signed [NCO_OUTPUTS-1:0][LUT_DATA_BITS:0] Q
+  output logic signed [LUT_DATA_BITS:0] I,
+  output logic signed [LUT_DATA_BITS:0] Q
 );
 
 logic [1:0] quad_addr, quad_data;
