@@ -6,7 +6,7 @@ module mult #(
 )(
   input  logic           clk,
   input  logic           rst,
-  input  logic           calc,
+  input  logic           cal,
   input  logic [W-1:0]   a,
   input  logic [W-1:0]   b,
   output logic [2*W-1:0] q,
@@ -19,7 +19,7 @@ logic [2*W-1:0] b_reg;
 logic [$clog2(W+1)-1:0] ctr;
 enum logic [1:0] {idle_s, calc_s} fsm;
 
-assign rdy = !calc && rdy_reg;
+assign rdy = rdy_reg && !cal;
 always @ (posedge clk) begin
   if (rst) begin
     fsm <= idle_s;
@@ -32,7 +32,7 @@ always @ (posedge clk) begin
   case (fsm)
     idle_s : begin
       ctr <= W;
-      if (calc) begin
+      if (cal) begin
         a_reg <= a;
         b_reg <= b;
         rdy_reg <= 0;
