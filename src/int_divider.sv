@@ -28,9 +28,7 @@ assign rdy = rdy_reg && !cal;
 always @ (posedge clk) begin
   if (rst) begin
     fsm <= idle_s;
-    dvd_prev <= 0;
     dvd_reg  <= 0;
-    dvs_prev <= 0;
     rdy_reg <= 0;
     cmp <= 0;
     quo <= 0;
@@ -39,8 +37,6 @@ always @ (posedge clk) begin
     case (fsm)
       idle_s : begin
         cnt <= 0;
-        dvd_prev <= dvd;
-        dvs_prev <= dvs;
         if (cal) begin
           $display("Divident: %d (%b). Divisor: %d (%b).", dvd, dvd, dvs, dvs);
           rdy_reg <= 0;
@@ -49,7 +45,7 @@ always @ (posedge clk) begin
           dvd_reg <= dvd;
           fsm <= calc_s;
         end
-        else rdy <= 1;
+        else rdy_reg <= 1;
       end
       calc_s : begin
         dvd_reg[WIDTH-1:1] <= dvd_reg[WIDTH-2:0];

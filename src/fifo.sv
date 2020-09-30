@@ -22,8 +22,8 @@ interface fifo_dc_if
   logic                  full;
   logic                  empty;
   
-  modport fifo (input rst_w, rst_r, clk_w, clk_r, write, data_in, read, output data_out, full, empty);
-  modport sys  (input data_out, full, empty, output rst_w, rst_r, clk_w, clk_r, write, data_in, read);
+  modport fifo (input rst_w, rst_r, clk_w, clk_r, write, data_in, read, output data_out, valid_out, full, empty);
+  modport sys  (input data_out, valid_out, full, empty, output rst_w, rst_r, clk_w, clk_r, write, data_in, read);
 
 endinterface
 
@@ -227,8 +227,8 @@ interface fifo_sc_if
   logic         empty;
   
   modport fifo (input rst, clk, write, data_in, read, output data_out, valid_out, full, empty);
-  modport sys  (input data_out, full, empty, output rst, clk, write, data_in, read);
-  modport tb   (output data_out, full, empty, rst, clk, write, data_in, read);
+  modport sys  (input data_out, valid_out, full, empty, output rst, clk, write, data_in, read);
+  modport tb   (output data_out, valid_out, full, empty, rst, clk, write, data_in, read);
 
 endinterface
 
@@ -263,7 +263,6 @@ always @ (posedge fifo.clk) begin
   if (fifo.rst) rd_ctr <= 0;
   else if (fifo.read && !fifo.empty) rd_ctr <= rd_ctr + 1;
 end
-always @ (posedge fifo.clk)
 
 reg [W-1:0] mem[(1<<D)-1:0];
 
@@ -333,5 +332,7 @@ always @ (posedge clk) begin
   valid_out <= (read && !empty);
   if (write && !full) mem[wr_addr] <= data_in;
 end
+
+endmodule
 
 `endif // MODULE_FIFO
