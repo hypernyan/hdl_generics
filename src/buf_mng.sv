@@ -47,6 +47,7 @@ generate
 
       .read     (fifo_r[i] && !fifo_e[i]),
       .data_out (fifo_o[i]),
+      .valid_out (),
 
       .full     (fifo_f[i]),
       .empty    (fifo_e[i])
