@@ -29,8 +29,7 @@ logic [N-1:0]         fifo_f;
 
 logic [N-1:0] cur;
 
- wor   [$clog2(N+1)-1:0] ind;
-//wire [$clog2(N+1)-1:0] ind;
+wor [$clog2(N+1)-1:0] ind;
 logic [N-1:0] avl_v;
 
 assign avl = (avl_v != 0);

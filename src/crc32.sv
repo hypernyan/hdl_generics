@@ -1,8 +1,8 @@
 module crc32 (
   input  logic        clk,
   input  logic        rst,
-  input  logic [7:0]  d,
-  input  logic        v,
+  input  logic [7:0]  dat,
+  input  logic        val,
   output logic        ok,
   output logic [31:0] crc
 );
@@ -32,21 +32,21 @@ end
 
 logic [31:0] crc_del;
 logic [31:0] crc_table_q;
-logic v_del;
+logic val_del;
 
 always @ (posedge clk) begin
   if (rst) begin
-    v_del       <= 0;
+    val_del       <= 0;
     crc_del     <= 0;
   end
   else begin
-    v_del <= v;
+    val_del <= val;
     crc_del <= crc;
-    crc_table_q <= crc_table[(crc[7:0] ^ d[7:0]) & 8'hff];
+    crc_table_q <= crc_table[(crc[7:0] ^ dat[7:0]) & 8'hff];
   end
 end
 
-assign crc = (v_del) ? crc_table_q ^ (crc_del >> 8) : '1; 
+assign crc = (val_del) ? crc_table_q ^ (crc_del >> 8) : '1; 
 assign ok = (crc == CRC_MAGIC_NUMBER);
 
 endmodule : crc32
