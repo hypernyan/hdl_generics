@@ -67,7 +67,7 @@ onehot #(N, 0) onehot_lsb_inst (
   .o (fifo_r)
 );
 
-assign d_o = fifo_o [ind][W-1:0];
+assign d_o = fifo_o[ind][W-1:0];
 
 always @ (posedge clk) v_o <= (fifo_r && !fifo_e[ind]);
 assign eof = v_o && fifo_e[ind];
