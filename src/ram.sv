@@ -69,10 +69,10 @@ module ram_dp #(
 );
 
 reg [DW - 1:0] ram [2**AW - 1:0];
-initial for (int i = 0; i < 2**AW; i = i + 1) ram[i] = '0;
 
 `ifdef SIMULATION
 initial begin
+  for (int i = 0; i < 2**AW; i = i + 1) ram[i] = '0;
 
   @ ( negedge mem_if.rst )
   @ ( posedge mem_if.clk_a )
