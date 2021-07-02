@@ -1,22 +1,20 @@
 // SystemVerilog implementation of
-// DOI: 10.1109/TC.2005.1(410)
+// DOI: 10.1109/TC.2005.1
 // Credits to Marcelo Kaihara and Naofumi Takagi
 
-package pkg;
+package mod_pkg;
   
   typedef enum logic [1:0] {
-    neg,
-    zero,
-    pos
+    neg, zer, pos
   } sd2;
     
   typedef struct packed  {
     sd2 s;
   } sd2_t;
 
-endpackage : pkg
+endpackage : mod_pkg
 
-import pkg::*;
+import mod_pkg::*;
 
 //////////////////////////////
 // Redundant binary inverse //
@@ -32,10 +30,10 @@ module sd2_inv #(
 always_comb begin
   for (int i = 0; i < N; i = i + 1) begin
     case (x[i])
-      zero : o[i] <= zero;
-      pos  : o[i] <= neg;
-      neg  : o[i] <= pos;
-      default : o[i] <= zero;
+      zer : o[i] <= zer;
+      pos : o[i] <= neg;
+      neg : o[i] <= pos;
+      default : o[i] <= zer;
     endcase
   end
 end
@@ -58,22 +56,22 @@ module rba #(
   sd2_t  s [N:0];
   
   always_comb begin
-    s[N] = zero;
-    c[0] = zero;
+    s[N] = zer;
+    c[0] = zer;
     for (int i = 0; i < N; i = i + 1) begin
       case ({x[i], y[i]})
         ({pos, pos}) : begin
           c[i + 1] = pos;
-          s[i]     = zero;
+          s[i]     = zer;
         end
-        ({pos, zero}), ({zero, pos}) : begin
+        ({pos, zer}), ({zer, pos}) : begin
           if (i == 0) begin
             c[1] = pos;
             s[0] = neg;            
           end
           else begin
             if (x[i-1] == neg || y[i-1] == neg) begin
-              c[i + 1] = zero;
+              c[i + 1] = zer;
               s[i]     = pos;
             end
             else begin
@@ -82,13 +80,13 @@ module rba #(
             end
           end
         end      
-        ({zero, zero}), ({pos, neg}), ({neg, pos}) : begin
-          c[i + 1] = zero;
-          s[i]     = zero;  
+        ({zer, zer}), ({pos, neg}), ({neg, pos}) : begin
+          c[i + 1] = zer;
+          s[i]     = zer;  
         end
-        ({zero, neg}), ({neg, zero}) : begin
+        ({zer, neg}), ({neg, zer}) : begin
           if (i == 0) begin
-            c[1] = zero;
+            c[1] = zer;
             s[0] = neg;
           end
           else begin
@@ -97,27 +95,27 @@ module rba #(
               s[i]     = pos;
             end
             else begin
-              c[i + 1] = zero;
+              c[i + 1] = zer;
               s[i]     = neg;              
             end
           end
         end
         ({neg, neg}) : begin
           c[i + 1] = neg;
-          s[i]     = zero;          
+          s[i]     = zer;          
         end
         default : begin
-          c[i + 1] = zero;
-          s[i]     = zero;
+          c[i + 1] = zer;
+          s[i]     = zer;
         end
       endcase
     end
     for (int i = 0; i < N + 1; i = i + 1) begin
       case ({c[i], s[i]})
-        ({pos, neg}),  ({neg, pos}), ({zero, zero}) : o[i] = zero;
-        ({pos, zero}), ({zero, pos})                : o[i] = pos;
-        ({neg, zero}), ({zero, neg})                : o[i] = neg;
-        default : o[i] = zero;
+        ({pos, neg}),  ({neg, pos}), ({zer, zer}) : o[i] = zer;
+        ({pos, zer}), ({zer, pos})                : o[i] = pos;
+        ({neg, zer}), ({zer, neg})                : o[i] = neg;
+        default : o[i] = zer;
       endcase
     end
   end
@@ -140,22 +138,22 @@ module rbab #(
   sd2_t [N:0] c, s;
   
   always_comb begin
-    s[N] = zero;
-    c[0] = zero;
+    s[N] = zer;
+    c[0] = zer;
     for (int i = 0; i < N; i = i + 1) begin
       case ({x[i], y[i]})
         ({pos, 1'b1}) : begin
           c[i + 1] = pos;
-          s[i]     = zero;
+          s[i]     = zer;
         end
-        ({pos, 1'b0}), ({zero, 1'b1}) : begin
+        ({pos, 1'b0}), ({zer, 1'b1}) : begin
           if (i == 0) begin
             c[1] = pos;
             s[0] = neg;            
           end
           else begin
             if (x[i-1] == neg) begin
-              c[i + 1] = zero;
+              c[i + 1] = zer;
               s[i]     = pos;
             end
             else begin
@@ -164,13 +162,13 @@ module rbab #(
             end
           end
         end      
-        ({zero, 1'b0}), ({neg, 1'b1}) : begin
-          c[i + 1] = zero;
-          s[i]     = zero;  
+        ({zer, 1'b0}), ({neg, 1'b1}) : begin
+          c[i + 1] = zer;
+          s[i]     = zer;  
         end
         ({neg, 1'b0}) : begin
           if (i == 0) begin
-            c[1] = zero;
+            c[1] = zer;
             s[0] = neg;
           end
           else begin
@@ -179,7 +177,7 @@ module rbab #(
               s[i]     = pos;
             end
             else begin
-              c[i + 1] = zero;
+              c[i + 1] = zer;
               s[i]     = neg;              
             end
           end
@@ -188,9 +186,9 @@ module rbab #(
     end
     for (int i = 0; i < N + 1; i = i + 1) begin
       case ({c[i], s[i]})
-        ({pos, neg}),  ({neg, pos}), ({zero, zero}) : o[i] = zero;
-        ({pos, zero}), ({zero, pos})                : o[i] = pos;
-        ({neg, zero}), ({zero, neg})                : o[i] = neg;
+        ({pos, neg}),  ({neg, pos}), ({zer, zer}) : o[i] = zer;
+        ({pos, zer}), ({zer, pos})                : o[i] = pos;
+        ({neg, zer}), ({zer, neg})                : o[i] = neg;
         default : $error("RBA error"); 
       endcase
     end
@@ -222,19 +220,19 @@ module mod_alu #(
     input logic       op;
     case (op)
       0 : begin // mhlv
-        op_sel = (a[0] == zero) ? 0 : 1;
+        op_sel = (a[0] == zer) ? 0 : 1;
       end
       1 : begin // mqrtr
         case (a)
-      /* 0->0 */ ({zero, zero}) : op_sel = 0; // ()
-      /* 1->1 */ ({zero, pos}),
-      /* 1->1 */ ({pos,  neg}) : op_sel = (m1 == pos) ? 1 : 3;
-      /*-2->2 */ ({neg,  zero}),
-      /* 2->2 */ ({pos,  zero}) : op_sel = 2;
-      /*-1->3 */ ({zero, neg}),
-      /*-1->3 */ ({neg,  pos}),
-      /* 3->3 */ ({neg,  neg}),
-      /* 3->3 */ ({pos,  pos})  : op_sel = (m1 == pos) ? 3 : 1;
+      /* 0->0 */ ({zer, zer}) : op_sel = 0; // ()
+      /* 1->1 */ ({zer, pos}),
+      /* 1->1 */ ({pos, neg}) : op_sel = (m1 == pos) ? 1 : 3;
+      /*-2->2 */ ({neg, zer}),
+      /* 2->2 */ ({pos, zer}) : op_sel = 2;
+      /*-1->3 */ ({zer, neg}),
+      /*-1->3 */ ({neg, pos}),
+      /* 3->3 */ ({neg, neg}),
+      /* 3->3 */ ({pos, pos})  : op_sel = (m1 == pos) ? 3 : 1;
           default : op_sel = 0;
         endcase
       end
@@ -243,38 +241,26 @@ module mod_alu #(
 
   endfunction : op_sel
   
-  parameter sd2_t [N-1:0] zero_v   = {N{zero}};
-  parameter sd2_t [N-1:0] neglsb_v = {{(N-1){zero}}, neg};
-  int u_dec;
+  parameter sd2_t [N-1:0] zer_v   = {N{zer}};
+  parameter sd2_t [N-1:0] neglsb_v = {{(N-1){zer}}, neg};
+  
   logic [1:0] state, state_nxt;
   
-  logic [2:0] sel1, sel2, sel3, sel4, sel5, sel6, sel7, sel8, sel9, sel10;
+  logic [1:0] sel1, sel2, sel3, sel4, sel6, sel7, sel8, sel9, sel10;
+  logic [2:0] sel5;
   
-  sd2_t [N-1:0] a, b, bi, u, v, vi, mi;
-
+  
   logic [N+1:0] p, d;
 
-  sd2_t [N:0] rba2y;
-  sd2_t [N:0] rba2x;
+  logic op, s, sreg;
 
-  int signed rba1x_dec, rba1y_dec, rba1_dec;
-  int signed rba2x_dec, rba2y_dec, rba2_dec;
-  int signed rba3x_dec, rba3y_dec, rba3_dec;
+  sd2_t [2:0] lsb;
 
-  logic op;
-  logic s, sreg;
-
-  sd2_t [N-1:0]
-    rba1x,
-    rba1y,
-    rba3x,
-    rba3y;
-
-  sd2_t [N:0]
-    rba1,
-    rba3;
-
+  sd2_t [N-1:0] a, b, bi, u, v, vi, mi, rba1x, rba1y, rba3x, rba3y;
+  sd2_t [N  :0] rba2x, rba2y, rba1, rba3;
   sd2_t [N+1:0] rba2;
+  
+  assign rba3x = u;
 
   // A+-B
   rba #(
@@ -304,10 +290,6 @@ module mod_alu #(
     .y   (rba3y),
     .o   (rba3)
   );
-
-  assign rba3x = u;
-  
-  sd2_t [2:0] lsb;
   
   rba #(
     .N (2)
@@ -322,7 +304,7 @@ module mod_alu #(
   
   always_comb begin
     if (rst) begin
-      z <= {N{zero}};
+      z <= {N{zer}};
       state_nxt <= 0;
       sel1 <= 0;
       sel2 <= 0;
@@ -337,7 +319,7 @@ module mod_alu #(
     else begin
       case (state)
         0 : begin
-          z <= {N{zero}};
+          z <= {N{zer}};
           state_nxt <= 1;
           sel1 <= 0;
           sel2 <= 0;
@@ -350,7 +332,7 @@ module mod_alu #(
           op   <= 0;
         end
         1 : begin
-          z <= {N{zero}};
+          z <= {N{zer}};
           if (p[0]) begin
             state_nxt <= 2;
             sel1 <= 1;
@@ -366,7 +348,7 @@ module mod_alu #(
           else begin 
             state_nxt <= 1;
             // Amod4 = 0
-            if (a[1:0] == {zero, zero}) begin
+            if (a[1:0] == {zer, zer}) begin
               sel8 <= 0; // U
               sel1 <= 2; // A:=A>>2
               sel2 <= 1; // B:=B
@@ -382,7 +364,7 @@ module mod_alu #(
                   sel4 <= 2; // P:=P>>1
                   sel5 <= 1; // D:=D
                 end
-                if (d[1] || d[2]) s <= 1; else s <= sreg;
+                s <= (d[1] || d[2]) ? 1 : sreg;
               end
               else begin
                 sel5 <= 5; // D:=D<<2
@@ -397,18 +379,17 @@ module mod_alu #(
               end
             end
             // Amod4 = 2
-            else if (a[0] == zero) begin
+            else if (a[0] == zer) begin
               sel1 <= 1; // A:=A>>1
               sel2 <= 1; // B:=B
               sel6 <= 3; // U:=MHLV(U,M)
-              sel8 <= 0; // U
+              sel8 <= 0; // U for op
               sel9 <= 1; // V:=V
               op   <= 0; // MHLV
               if (!sreg) begin
-                if (d[1]) s <= 1;
-                else s <= sreg;
+                s <= (d[1]) ? 1 : sreg;
                 sel4 <= 1; // P:=P
-                sel5 <= 3; // D:=D>>2
+                sel5 <= 2; // D:=D>>1
               end
               else begin
                 s <= sreg;
@@ -428,35 +409,26 @@ module mod_alu #(
                 if (sreg) begin
                   sel5 <= 4; // D:=D<<1
                   if (!mode && !p[1]) begin
-                    sel4 <= 3; // P:=P>>2
                     s <= sreg;
+                    sel4 <= 3; // P:=P>>2
                   end
                   else begin
-                    if (p[1]) s <= 0; else s <= sreg;
+                    s <= (p[1]) ? 0 : sreg;
                     sel4 <= 2; // P:=P>>1
                   end
                 end
-                else begin // s == 0
+                else begin // s = 0
                   sel4 <= 1; // P:=P
-                  if (d[1]) begin
-                    s <= 1;
-                    sel5 <= 2; // D:=D>>1
-                  end
-                  else begin
-                    s <= sreg;
-                    sel5 <= 0;
-                  end
+                  sel5 <= 2; // D:=D>>1
+                  s <= (d[1]) ? 1 : sreg;
                 end
               end
-              else begin
+              else begin 
                 sel4 <= 1; // P:=P
                 sel2 <= 2; // B:=A
                 sel9 <= 2; // V:=U
                 sel5 <= 2; // D:=D>>1
-                if (!d[1]) begin
-                  s <= 0;
-                end
-                else s <= sreg;
+                s <= (!d[1]) ? 0 : sreg;
               end
             end
           end
@@ -469,13 +441,13 @@ module mod_alu #(
           sel5 <= 0;
           sel8 <= 0; // U
           s <= sreg;
-          z <= {N{zero}};
+          z <= {N{zer}};
           op   <= 0; // MHLV
           if (!mode && sreg) begin
             sel6 <= 3; // U:=MHLV(U,M)
             sel9 <= 1; // V:=V
           end
-          else if (mode && ((b[1:0] == {pos, pos}) || (b[1:0] == {neg, pos}) || (b[1:0] == {zero, neg}))) begin
+          else if (mode && ((b[1:0] == {pos, pos}) || (b[1:0] == {neg, pos}) || (b[1:0] == {zer, neg}))) begin
             sel6 <= 1; // U:=U
             sel9 <= 3; // V:=-V
           end
@@ -502,7 +474,7 @@ module mod_alu #(
   end
 
   always_comb begin
-    if (lsb[1:0] == {zero, zero}) begin
+    if (lsb[1:0] == {zer, zer}) begin
       sel10 <= 0;
       sel3  <= 0;
     end
@@ -515,7 +487,7 @@ module mod_alu #(
     case (sel8)
       0 : begin
       //  rba2x <= u;
-        rba2x[N] <= zero;
+        rba2x[N] <= zer;
         rba2x[N-1:0] <= u;
 
       end
@@ -528,14 +500,14 @@ module mod_alu #(
 
   always_comb begin
     case (sel7)
-      0 : rba2y <= {(N+1){zero}}; // RBAY1:=0
-      1 : rba2y <= {zero, m};     // RBAY1:=M
+      0 : rba2y <= {(N+1){zer}}; // RBAY1:=0
+      1 : rba2y <= {zer, m};     // RBAY1:=M
       2 : begin
         rba2y[N:1] <= m[N-1:0];   // RBAY1:=M<<1
-        rba2y[0] <= zero;
+        rba2y[0] <= zer;
       end
-      3 : rba2y <= {zero, mi};     // RBAY1:=-M
-      default : rba2y <= {(N+1){zero}};
+      3 : rba2y <= {zer, mi};     // RBAY1:=-M
+      default : rba2y <= {(N+1){zer}};
     endcase
   end
 
@@ -545,6 +517,7 @@ module mod_alu #(
       1 : rba1y <= bi; // RBAY1:=-B
     endcase
   end
+  
   always_comb begin
     case (sel10)
       0 : rba3y <= v;  // V:=V
@@ -559,15 +532,15 @@ module mod_alu #(
       end
       1 : begin
         a[N-2:0] <= a[N-1:1];   // A:=A>>1
-        a[N-1]   <= zero;
+        a[N-1]   <= zer;
       end
       2 : begin
         a[N-3:0]   <= a[N-1:2]; // A:=A>>2
-        a[N-1:N-2] <= {zero, zero};
+        a[N-1:N-2] <= {zer, zer};
       end
       3 : begin
         a[N-2:0] <= rba1[N:2];  // A:=RBA1>>2
-        a[N-1]   <= zero;
+        a[N-1]   <= zer;
       end
     endcase
     case (sel2)
@@ -591,7 +564,7 @@ module mod_alu #(
     endcase
     case (sel6)
       0 : begin
-        u <= (mode) ? x : zero_v; // init
+        u <= (mode) ? x : zer_v; // init
       end
       1 : begin
         u <= u;  // U:=U
@@ -600,11 +573,11 @@ module mod_alu #(
         u[N-1:0] <= rba2[N+1:2];  // MQRTR(U+qV)
       end
       3 : begin
-        u[N-1:0] <= (u[0] == zero) ? {zero, u[N-1:1]} : rba2[N:1];  // MHLV(U)
+        u[N-1:0] <= (u[0] == zer) ? {zer, u[N-1:1]} : rba2[N:1];  // MHLV(U)
       end
     endcase
     case (sel9)
-      0 : v <= (mode) ? zero_v : x;
+      0 : v <= (mode) ? zer_v : x;
       1 : v <= v;
       2 : v <= u;
       3 : v <= vi;
