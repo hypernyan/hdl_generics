@@ -271,7 +271,7 @@ int i;
 initial for (i = 0; i < 2**D; i = i + 1) mem[i] = '0;
 
 always @ (posedge fifo.clk) begin
-  if (fifo.read && !fifo.empty) fifo.data_out <= mem[rd_addr];
+  fifo.data_out <= mem[rd_addr];
   fifo.valid_out <= (fifo.read && !fifo.empty);
   if (fifo.write && !fifo.full) mem[wr_addr] <= fifo.data_in;
 end
